@@ -1,0 +1,25 @@
+# Run 4 — BMU kernel microbenchmark (Table 2, Fig 3). RTX 4090 only.
+id: microbench
+produces: [T2, F3]
+output: results/microbench.parquet
+gpu: rtx4090
+
+kernels:
+  - node-major      # reference (1.0×)
+  - feature-major
+  - dense-sweep
+  - spmm-tile
+
+problem_sizes:
+  - {K: 32768, D: 32768, nnz: 10, label: "Pass 1"}
+  - {K: 65536, D: 32768, nnz: 10, label: "Pass 2"}
+
+tile_size: 8           # TA = 8 for microbenchmark
+iterations: 50
+seeds: [0, 1, 2, 3, 4]
+
+precision:
+  feature_major: fp16
+  spmm_tile: fp16
+  node_major: fp32
+  dense_sweep: fp32

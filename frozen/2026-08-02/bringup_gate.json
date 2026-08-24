@@ -1,0 +1,61 @@
+{
+  "bmu_identical_fp16_vs_fp32": true,
+  "bmu_identical_4090_vs_h200": null,
+  "qe_delta": 0.008300000000000196,
+  "te_delta": 0.0,
+  "nan_inf_count": 0,
+  "determinism_pass": true,
+  "overall_pass": true,
+  "runs": [
+    {
+      "edge": 32,
+      "seed": 0,
+      "trial": 0,
+      "precision": "fp16",
+      "epochs": 5,
+      "qe": 3.0197,
+      "te": 0.002
+    },
+    {
+      "edge": 32,
+      "seed": 0,
+      "trial": 1,
+      "precision": "fp16",
+      "epochs": 5,
+      "qe": 3.0197,
+      "te": 0.002
+    },
+    {
+      "edge": 32,
+      "seed": 0,
+      "precision": "fp32",
+      "epochs": 5,
+      "qe": 3.028
+    },
+    {
+      "edge": 64,
+      "seed": 0,
+      "trial": 0,
+      "precision": "fp16",
+      "epochs": 5,
+      "qe": 3.0098,
+      "te": 0.012
+    },
+    {
+      "edge": 64,
+      "seed": 0,
+      "trial": 1,
+      "precision": "fp16",
+      "epochs": 5,
+      "qe": 3.0098,
+      "te": 0.012
+    },
+    {
+      "edge": 64,
+      "seed": 0,
+      "precision": "fp32",
+      "epochs": 5,
+      "qe": 3.0181
+    }
+  ]
+}

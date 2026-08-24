@@ -1,0 +1,18 @@
+# Run 2 — precision & cross-GPU correctness gate. Must pass before any H200 run.
+id: bringup_gate
+produces: [gate]
+output: results/bringup_gate.json
+gates: [h200_runs]
+
+corpus: tiny    # ~50k articles, not the full MEDLINE
+edges: [32, 64]
+seeds: [0, 1]   # ≥2 for determinism check
+implementations: [sbsom-bin]
+
+checks:
+  - bmu_identical_fp16_vs_fp32
+  - bmu_identical_4090_vs_h200
+  - qe_delta_within_tolerance
+  - te_delta_within_tolerance
+  - no_nan_inf
+  - determinism_across_seeds

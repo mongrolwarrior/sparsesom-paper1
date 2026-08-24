@@ -1,0 +1,14 @@
+{
+  "n_articles": 29903261,
+  "v_features": 30766,
+  "nnz_total": 332436043,
+  "nnz_mean": 11.12,
+  "nnz_sd": 4.6,
+  "density": 0.000361,
+  "n_train": 26912934,
+  "n_heldout": 2990327,
+  "split_seed": 42,
+  "train_fraction": 0.9,
+  "full_sbcsr_sha256": "06e46d086ead4526769eb2e74a1ca9fc87e0a79646b0f7a7b66c90fdb3028f53",
+  "train_sbcsr_sha256": "500ceed6d32aa76a497d31d3051e4cb3584e36437d7b3d5d19040486bcc46df4"
+}

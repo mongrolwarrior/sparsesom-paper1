@@ -1,0 +1,30 @@
+# Run 6 — cross-implementation & update-rule comparison (Tables 3, 4, 6).
+id: impl_compare
+produces: [T3, T4, T6]
+output: results/impl_compare.parquet
+
+edges: [32, 64, 128, 256]   # until cuSPARSE OOM
+
+implementations:
+  - sbsom-bin
+  - ssom-feat
+  - ssom-node
+
+update_variants:
+  - gaussian
+  - box
+  - box+kl
+
+precision:
+  primary: fp16              # matched across all
+  optional_ref: fp32         # cuSPARSE FP32 for as-published comparison
+
+metrics:
+  - wall_s
+  - bmu_s_per_ep
+  - upd_s_per_ep
+  - epochs
+  - qe
+  - te
+  - dead_frac
+  - oom

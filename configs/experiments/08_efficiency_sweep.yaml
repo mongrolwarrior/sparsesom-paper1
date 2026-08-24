@@ -1,0 +1,28 @@
+# Run 8 — full-corpus efficiency sweep (supersedes Table 7 / Fig 5, + S1).
+id: efficiency_sweep
+produces: [E2, T7, F5, S1]
+output: results/efficiency_sweep.parquet
+depends_on: [capacity_frontier]   # E1 sets each method's ceiling
+
+implementations:
+  - sbsom-bin
+  - sbsom-float
+  - ssom-feat
+  - ssom-node
+  - medsom
+  # somoclu included only to its E1 ceiling
+
+# Edge-doubling ladder from 32 upward until each drops out
+edges_start: 32
+edges_strategy: double_until_oom
+
+# Matched conditions for fair comparison
+update: box+kl
+epochs: matched_fixed    # same epoch count across implementations at each edge
+
+metrics:
+  - bmu_s_per_ep
+  - upd_s_per_ep
+  - total_wall_s
+  - oom
+  - dropout_edge

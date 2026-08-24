@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "SparseSOM Phase 1 — Reproducibility Repository"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - given-names: Andrew
+license: MIT
+repository-code: "https://github.com/mongrolwarrior/sparsesom-paper1"

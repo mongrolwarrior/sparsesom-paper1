@@ -1,0 +1,29 @@
+# Run 7 — capacity / feasibility frontier (replaces part of Table 7).
+id: capacity_frontier
+produces: [E1]
+output: results/capacity_frontier.parquet
+
+methods:
+  - somoclu-cpu
+  - somoclu-gpu
+  - sbsom-bin
+  - sbsom-float
+  - ssom-feat
+  - ssom-node
+  - medsom
+
+# Search each method's ceiling over K, V, N
+axes: [map_size, vocabulary, corpus_size]
+seeds: [0]   # feasibility, not timing
+
+output_fields:
+  - method
+  - max_edge
+  - max_neurons
+  - v_used
+  - n_used
+  - mem_required_gb
+  - mem_available_gb
+  - limit_type     # {oom, ram, walltime, analytic}
+  - feasible
+  - note

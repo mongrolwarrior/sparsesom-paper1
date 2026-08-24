@@ -1,0 +1,38 @@
+# Experiment folders (data + results; created by repro init)
+/experiments/
+
+# Legacy top-level data/results (pre-section redesign)
+results/
+data/*.sbcsr
+data/*.scsr
+data/*.sompca
+data/*.json
+data/medsom_input/
+
+# Build artifacts
+__pycache__/
+*.pyc
+*.egg-info/
+.eggs/
+
+# Docker
+.docker/
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Figures output
+figures/out/*.png
+figures/out/*.pdf
+
+# NEVER commit these (PMID-bearing data)
+metadata.sqlite
+openalex_labels.sqlite

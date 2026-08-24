@@ -1,0 +1,31 @@
+# Run 5 — master size sweep, power law / no elbow (Table 8, Fig 6, + Fig 4 derived).
+# This is the paper's centrepiece analysis.
+id: size_sweep
+produces: [T8, F6, F4]
+output:
+  - results/size_sweep.parquet
+  - results/size_sweep_epochs.parquet
+depends_on: [pca_equivalence]   # PCA must be validated first
+
+# Edge-doubling ladder, single full-corpus split for every edge
+edges:
+  rtx4090: [32, 64, 128, 256, 512]
+  h200: [1024, 1379]
+
+implementation: sbsom-bin
+init: pca
+
+metrics_final:
+  - epochs
+  - wall_s
+  - qe_heldout
+  - qe_eucl
+  - te
+  - dead_frac
+  - converged
+
+metrics_per_epoch:
+  - sigma
+  - qe_heldout
+  - bmu_s
+  - update_s

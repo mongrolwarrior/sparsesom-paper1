@@ -1,0 +1,21 @@
+impl,edge,kernel,role,launches_captured,scaled_x,dram_read_tb,dram_write_tb,dram_bw_pct_of_peak,sm_occupancy_pct_NOT_bandwidth,kernel_time_s
+sbsom-bin,128,bmu_spmm_kernel,FUSED score+argmin (no score block),1,1.0,2.815861645312,0.000360234752,27.8,32.3,10.287
+sbsom-bin,128,norm_fm_kernel,codebook norm (read),2,1.0,0.002016297344,5.81696e-06,88.5,8.4,0.002
+ssom-feat,128,argmax_kernel,argmin: SCORE-BLOCK READ-BACK,1643,1.0,0.885324823424,0.192936150016,24.9,4.3,4.4
+ssom-feat,128,csrmm_alg2_kernel,scores: codebook read + SCORE-BLOCK WRITE,1643,1.0,1.16695766656,0.856331851392,55.4,44.7,3.712
+ssom-feat,128,norms_kernel,codebook norm (read),1,1.0,0.0010081472,2.878592e-06,29.0,44.1,0.004
+ssom-feat,128,rebase_rowptr,row-pointer setup (negligible),1643,1.0,0.000115284864,0.00016342976,8.9,0.7,0.003
+ssom-node,128,argmax_kernel,argmin: SCORE-BLOCK READ-BACK,1643,1.0,0.885364707328,0.18587394368,24.8,4.3,4.39
+ssom-node,128,csrmm_alg2_kernel,scores: codebook read + SCORE-BLOCK WRITE,1643,1.0,1.92308519808,0.847829319296,4.4,2.8,65.853
+ssom-node,128,norms_kernel,codebook norm (read),1,1.0,0.001008740096,2.87744e-06,23.0,34.9,0.004
+ssom-node,128,rebase_rowptr,row-pointer setup (negligible),1643,1.0,0.000115813376,0.000160542848,8.8,0.7,0.003
+sbsom-bin,256,bmu_spmm_kernel,FUSED score+argmin (no score block),1,1.0,18.960036498048,0.000461931008,45.6,30.0,42.329
+sbsom-bin,256,norm_fm_kernel,codebook norm (read),2,1.0,0.00806518016,5.88032e-06,60.7,5.8,0.014
+ssom-feat,256,argmax_kernel,argmin: SCORE-BLOCK READ-BACK,299,22.0,3.5547283727903682,0.019043579748602005,7.7,1.6,47.33
+ssom-feat,256,csrmm_alg2_kernel,scores: codebook read + SCORE-BLOCK WRITE,300,21.9,6.906237286023253,3.3629083565567996,67.7,39.8,15.439
+ssom-feat,256,norms_kernel,codebook norm (read),1,1.0,0.004040910592,3.001216e-06,57.1,86.8,0.007
+ssom-feat,256,rebase_rowptr,row-pointer setup (negligible),300,21.9,0.00013681978496000001,0.0,0.9,0.1,0.016
+ssom-node,256,argmax_kernel,argmin: SCORE-BLOCK READ-BACK,19,345.8,3.550978360252632,0.019062949645473688,7.7,1.6,47.352
+ssom-node,256,csrmm_alg2_kernel,scores: codebook read + SCORE-BLOCK WRITE,20,328.6,15.81261315536,3.4722213677824,7.6,2.8,258.961
+ssom-node,256,norms_kernel,codebook norm (read),1,1.0,0.004042990464,3.089408e-06,24.4,37.1,0.017
+ssom-node,256,rebase_rowptr,row-pointer setup (negligible),20,328.6,0.0001292331712,1.682176e-07,0.9,0.1,0.016

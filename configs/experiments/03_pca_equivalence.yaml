@@ -1,0 +1,22 @@
+# Run 3 — PCA vs random init equivalence (Table 5, P1 supplementary).
+# Gates the PCA default for runs 5-8.
+id: pca_equivalence
+produces: [T5, P1]
+output:
+  - results/pca_equivalence.parquet
+  - results/fullcorpus_train.parquet
+gates: [pca_default]
+
+edges: [32, 64, 128]
+inits: [pca, random]
+seeds: [0, 1, 2, 3, 4]
+precision: [fp16, fp32]
+
+metrics_per_epoch:
+  - qe_heldout
+  - te
+  - dead_frac
+
+acceptance:
+  tost_margin_relative: 0.01
+  metrics: [qe_heldout, te, dead_frac]

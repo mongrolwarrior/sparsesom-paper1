@@ -1,0 +1,7 @@
+impl,edge,capture,phase_dram_tb,score_block_write_tb,score_block_readback_tb,score_roundtrip_tb,kernel_time_sum_s,bmu_wall_unprofiled_s,gap_s,gap_frac,sustained_dram_bw_pct
+sbsom-bin,128,exact,2.818,0.0,0.0,0.0,10.289,9.632,-0.657,-0.068,29.0
+ssom-feat,128,exact,3.103,0.856,0.885,1.742,8.119,8.722,0.603,0.069,35.3
+ssom-node,128,exact,3.843,0.848,0.885,1.733,70.25,65.644,-4.606,-0.07,5.8
+sbsom-bin,256,exact,18.969,0.0,0.0,0.0,42.342,41.605,-0.737,-0.018,45.2
+ssom-feat,256,sampled_x22,13.847,3.363,3.555,6.918,62.793,63.803,1.011,0.016,21.5
+ssom-node,256,sampled_x329,22.859,3.472,3.551,7.023,306.346,289.301,-17.044,-0.059,7.8

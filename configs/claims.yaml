@@ -1,0 +1,141 @@
+# claims.yaml — every quantitative claim in the Phase 1 manuscript (v9),
+# its source artifact, derivation, and acceptance check.
+# `repro verify` evaluates each claim against the frozen results and emits pass/fail.
+# Values here trace to the data-frozen-2026-08-02 result files.
+
+claims:
+
+  layout_speedup:
+    prose: "feature-major accelerates BMU over node-major by 4.5-8.5x on the full MEDLINE corpus"
+    artifact: impl_compare.parquet
+    derivation: "BMU-time ratio ssom-node/ssom-feat, matched precision (fp16) & update (box+kl), paired log-ratio t with CI"
+    check:
+      type: ci_direction
+      impl_slow: ssom-node
+      impl_fast: ssom-feat
+      column: bmu_s_per_ep
+      description: "ssom-feat BMU consistently faster than ssom-node across edges with CI"
+    section: "§5.1"
+
+  bmu_bit_exact:
+    prose: "quality is layout- and precision-invariant (FP16 BMU identical to FP32)"
+    artifact: bringup_gate.json
+    derivation: "bmu_identical_fp16_vs_fp32 flag true in the bring-up gate"
+    check:
+      type: assertion
+      field: bmu_identical_fp16_vs_fp32
+      value: true
+    section: "§5.1"
+
+  sbsom_vs_cusparse_crossover:
+    prose: "at equal held-out quality the wall-time ratio crosses over with map size: cuSPARSE faster below ~edge 64, sbsom-bin 1.5-2.6x faster at edges 128-256, cuSPARSE OOM at edge 512"
+    artifact: impl_compare.parquet
+    derivation: "held-out QE agreement (equal quality) and wall ratio ssom-feat/sbsom-bin, box+kl run to convergence (--epochs 200)"
+    check:
+      type: ci_contains
+      description: "held-out QE agrees within ~1% between sbsom-bin and ssom-feat at matched update"
+    section: "§5.3, Table 3"
+
+  dram_crossover:
+    prose: "DRAM-traffic advantage crosses over with map size: sbsom-bin moves ~9% less at edge 128 (2.82 vs 3.10 TB) but ~37% more at edge 256 (18.97 vs 13.85 TB)"
+    artifact: roofline_phase_summary.csv
+    derivation: "whole-BMU-phase DRAM (norms+csrmm+argmax vs fused) sbsom-bin vs ssom-feat, FP16-matched; edge 128 exact, edge 256 sampled+scaled"
+    check:
+      type: re_measured
+      needs_rows: [[sbsom-bin, 128], [ssom-feat, 128], [sbsom-bin, 256], [ssom-feat, 256]]
+      column: phase_dram_tb
+      description: "phase-total DRAM present for sbsom-bin and ssom-feat at edges 128 and 256; sign differs by edge"
+    section: "§5.7, Table 8"
+
+  bandwidth_advantage:
+    prose: "sbsom-bin sustains ~2x the DRAM bandwidth of ssom-feat at edge 256 (45.2% vs 21.5%) while moving more total data, because fusion eliminates the 6.9 TB score-block round trip (half of cuSPARSE's phase traffic)"
+    artifact: roofline_phase_summary.csv
+    derivation: "sustained_dram_bw_pct and phase_dram_tb at edge 256; score_roundtrip_tb itemised"
+    check:
+      type: compound
+      edge: 256
+      description: "sbsom-bin sustained_dram_bw_pct > ssom-feat AND sbsom-bin phase_dram_tb > ssom-feat at edge 256"
+    section: "§5.7, §6, Table 9"
+
+  bmu_dominance:
+    prose: "BMU is 98.7% -> 99.5% of wall, rising with K"
+    artifact: size_sweep_epochs.parquet
+    derivation: "bmu_share = sum(bmu_s) / (sum(bmu_s)+sum(update_s)) per edge"
+    check:
+      type: monotone
+      direction: non-decreasing
+      variable: bmu_share
+      over: edge
+    section: "§5.5, Fig 4"
+
+  no_elbow:
+    prose: "no elbow to 262,144 neurons (edge 512) on the deterministic 4090 sweep"
+    artifact: size_sweep.parquet
+    derivation: "segmented-model test — piecewise vs single power law in log-log across edges 32-512"
+    check:
+      type: model_comparison
+      description: "segmented model not significantly favoured over single power law"
+    section: "§5.6, Table 8, Fig 6"
+
+  sigma0_pca_interaction:
+    prose: "under the deterministic schedule PCA does NOT halve epochs; its value is licensing sigma0=0.25E, which improves held-out QE ~1% under PCA while random init degrades there"
+    artifact: sigma0_sweep.parquet
+    derivation: "held-out QE: arm B (PCA 0.25E) vs A (PCA 0.5E); arm R' (random 0.25E) vs R (random 0.5E)"
+    check:
+      type: sigma0_interaction
+      description: "at sigma0=0.25E, PCA QE <= its 0.5E QE; random QE >= its 0.5E QE (signs opposite in aggregate)"
+    section: "§5.2, Table 5"
+
+  binary_faster_than_float:
+    prose: "binary 2.1-2.8x faster than float per epoch (FP16 codebook; old '~20%' figure predated FP16)"
+    artifact: efficiency_sweep.parquet
+    derivation: "per-epoch BMU ratio sbsom-float/sbsom-bin across shared edges"
+    check:
+      type: ci_direction
+      impl_slow: sbsom-float
+      impl_fast: sbsom-bin
+      column: bmu_s_per_ep
+      description: "sbsom-bin faster than sbsom-float at every shared edge"
+    section: "§5.4, S1"
+
+  largest_som:
+    prose: "largest SOM on 24 GB: 262,144 neurons (edge 512); the adaptive-schedule H200 run reached 1,050,625 (edge 1024), disclosed as Table 7 row 1024*"
+    artifact: size_sweep.parquet
+    derivation: "max neurons where converged == true on the 4090 deterministic sweep"
+    check:
+      type: exact
+      field: neurons
+      value: 262144
+    section: "§5.6, Table 7"
+
+  qe_strictly_decreasing:
+    prose: "held-out QE strictly decreasing in K (0.524 -> 0.376 over edges 32-512)"
+    artifact: size_sweep.parquet
+    derivation: "qe_heldout at successive edges"
+    check:
+      type: monotone
+      direction: strictly_decreasing
+      variable: qe_heldout
+      over: neurons
+    section: "§5.6"
+
+  somoclu_speedup:
+    prose: "sbsom-bin is 85x (edge 32) to 655x (edge 256) faster than somoclu (best CPU library, 1.7.6), the ratio climbing then plateauing near 650x; uncontended"
+    artifact: efficiency_sweep.parquet
+    derivation: "total s/epoch ratio somoclu / sbsom-bin across edges 32-256 (total wall / epochs on both sides, Table 6 basis)"
+    check:
+      type: cpu_ratio
+      min_ratio: 50
+      description: "somoclu total-epoch wall >> sbsom-bin total-epoch wall at every edge (>= 50x)"
+    section: "§5.5, Table 6"
+
+  medsom_speedup:
+    prose: "sbsom-bin is at least an order of magnitude faster per epoch than MedSOM (the prior node-major CUDA SOM) at every map size MedSOM can run (edges 32-256; ~80x at edge 128); MedSOM cannot run edge 512 on 24 GB"
+    artifact: efficiency_sweep.parquet
+    derivation: "total s/epoch ratio medsom / sbsom-bin across the edges MedSOM completed (total wall / epochs on both sides)"
+    check:
+      type: cpu_ratio
+      impl_slow: medsom
+      min_ratio: 10
+      description: "medsom total-epoch wall >= 10x sbsom-bin total-epoch wall at every edge it completed"
+    section: "§5.4, Table 4"

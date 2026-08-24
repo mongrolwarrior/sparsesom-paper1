@@ -1,0 +1,46 @@
+# defaults.yaml — shared parameters for all Phase 1 experiments.
+# Every run resolves its config by merging: defaults ← hardware profile ← experiment override.
+# The resolved config is hashed and persisted with each artifact for provenance.
+
+corpus:
+  name: pubmed26_ge5
+  n_articles: 29903261
+  v_features: 30766
+  format: sbcsr
+  split_seed: 42
+  train_fraction: 0.9
+  zenodo_doi: "10.5281/zenodo.20770707"
+  # Zenodo v2 (record 21965766, the version the concept DOI resolves to); the corpus
+  # members inside are bit-identical to v1 — only the bundled README changed.
+  tarball_sha256: "e0070e090a884ef1069c0c97b9baba300d89373938c658a3d7b6b8322ed4f919"
+
+model:
+  implementation: sbsom-bin   # {sbsom-bin, sbsom-float, ssom-feat, ssom-node, medsom, somoclu-cpu}
+  codebook_layout: feature-major
+  precision:
+    storage: fp16
+    accumulation: fp32
+  init: pca                   # {pca, random} — gated by run 3 (PCA equivalence)
+  update:
+    type: box                 # {gaussian, box}
+    passes: 3
+    stopping: kaski-lagus
+    kl_stop:
+      delta_qe: 0.001
+      consecutive: 3
+      sigma_threshold: 2.0
+  sigma:
+    initial_factor: 0.5       # σ₀ = 0.5 × edge
+    schedule: exponential
+    rate: 0.3
+  tile_size: 16               # TA = 16
+
+seeds: [0, 1, 2, 3, 4]
+
+ladder: [32, 64, 128, 256, 512]
+
+statistics:
+  confidence: 0.95
+  method: t-interval          # n = 5 is too small for z or bootstrap
+  ratio_method: paired-log-ratio-t
+  t_crit_4: 2.776             # t(0.975, df=4) for 5 seeds

@@ -1,0 +1,6 @@
+# Keep the Docker build context identical to a fresh clone: local build trees
+# carry CMakeCache.txt files with host paths that break the in-image builds.
+**/build
+experiments
+data
+.git

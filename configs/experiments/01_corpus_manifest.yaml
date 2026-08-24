@@ -1,0 +1,15 @@
+# Run 1 — corpus & split manifest (Table 1). No GPU training.
+id: corpus_manifest
+produces: [T1]
+output: results/corpus_manifest.json
+fields:
+  - n_articles
+  - v_features
+  - nnz_total
+  - nnz_mean
+  - nnz_sd
+  - density
+  - n_train
+  - n_heldout
+  - split_seed
+  - sbcsr_sha256

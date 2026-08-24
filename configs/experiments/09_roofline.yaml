@@ -1,0 +1,34 @@
+# Run 9 — roofline profiling (Table 9, Fig 7). Out-of-CI, scripted ncu.
+id: roofline
+produces: [T9, F7]
+output: results/roofline_dram.csv
+
+edge: 128     # was 91; re-measured at 128 with FP16-matched precision
+
+implementations:
+  - sbsom-bin
+  - sbsom-float
+  - ssom-feat
+  - ssom-node
+  - medsom
+  # somoclu: timing only (no GPU kernel to profile)
+
+precision: fp16   # + optional FP32-cuSPARSE reference
+
+# ncu produces per-kernel: dram_bytes_read, dram_bytes_write, duration_s
+output_fields:
+  - impl
+  - kernel_name
+  - dram_bytes_read
+  - dram_bytes_write
+  - duration_s
+  - achieved_bw_gbs
+  - flops
+  - samples_profiled
+  - scale_factor
+
+# Hardware constants (RTX 4090)
+hw:
+  peak_bw_gbs: 1008
+  peak_flops_tflops: 82.6
+  ridge_point: 81.9

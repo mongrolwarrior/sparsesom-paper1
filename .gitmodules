@@ -1,0 +1,15 @@
+[submodule "external/SparseBinarySOM"]
+	path = external/SparseBinarySOM
+	url = https://github.com/mongrolwarrior/SparseSOM.git
+[submodule "external/StandardSparseSOM"]
+	path = external/StandardSparseSOM
+	url = https://github.com/mongrolwarrior/StandardSparseSOM.git
+[submodule "external/SparseBinEval"]
+	path = external/SparseBinEval
+	url = https://github.com/mongrolwarrior/SparseBinEval.git
+[submodule "external/somoclu"]
+	path = external/somoclu
+	url = https://github.com/peterwittek/somoclu.git
+[submodule "external/MedSOM"]
+	path = external/MedSOM
+	url = https://github.com/mongrolwarrior/MedSOM-Naive.git
