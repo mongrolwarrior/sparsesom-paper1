@@ -99,7 +99,7 @@ claims:
     section: "§5.4, S1"
 
   largest_som:
-    prose: "largest SOM on 24 GB: 262,144 neurons (edge 512); the adaptive-schedule H200 run reached 1,050,625 (edge 1024), disclosed as Table 7 row 1024*"
+    prose: "largest SOM on 24 GB: 262,144 neurons (edge 512); the adaptive-schedule H200 run reached 1,048,576 (edge 1024), disclosed as Table 7 row 1024*"
     artifact: size_sweep.parquet
     derivation: "max neurons where converged == true on the 4090 deterministic sweep"
     check:

@@ -58,7 +58,7 @@ Everything below runs `$RUN <args>`, which is just `repro <args>` inside the ima
 
 There are two depths — `outline` (~3 h, direction and order of magnitude only;
 reproduces no published value) and `full` (~6.5 days; regenerates every published
-value and scores the 12 claims in `configs/claims.yaml`) — plus `sections`, which is
+value and scores the 13 claims in `configs/claims.yaml`) — plus `sections`, which is
 simply `full` run piecewise. They share the same pipeline and the same
 `repro verify` acceptance checks.
 
@@ -112,7 +112,7 @@ at 256² alone is ~23 h, MedSOM ~18 h — a clean-clone run of the whole profile
 **6.5 days** on a single 4090, so budget a week.
 The `sections` path is the practical way to run this in stages.
 
-> The edge-1024 (1,050,625-neuron) point in Table 7 was measured on an H200 under
+> The edge-1024 (1,048,576-neuron) point in Table 7 was measured on an H200 under
 > the earlier adaptive schedule and is disclosed as such (row `1024*`); it is **not**
 > part of the 24 GB reproduction here.
 
@@ -129,7 +129,7 @@ $RUN verify
 
 Each claim maps to a result file, a derivation, and an acceptance check (monotone,
 CI-direction, exact, model-comparison, …). Against the frozen reference data this
-passes 12/12.
+passes 13/13.
 
 Regenerate figures with `$RUN figures`.
 
@@ -200,8 +200,8 @@ experiment runs normally. To include it:
      -v $PWD/experiments:/workspace/experiments sparsesom-paper1 run 10
    ```
 
-With the roofline artifacts produced, `repro verify` covers all 12 claims instead
-of 10. Budget several hours: edge 128 is captured exactly; edge 256 is sampled
+With the roofline artifacts produced, `repro verify` covers all 13 claims instead
+of 11. Budget several hours: edge 128 is captured exactly; edge 256 is sampled
 (`NCU_CAP=60`) and scaled, matching the published methodology.
 
 ---
@@ -211,7 +211,8 @@ of 10. Budget several hours: edge 128 is captured exactly; edge 256 is sampled
 The released `.sbcsr` corpus contains **only MeSH descriptor indices** (integer
 feature ids) — **no PMIDs, titles, or abstracts**. The author's contribution to it is
 dedicated to the public domain under **CC0 1.0** and deposited on Zenodo
-(DOI: [10.5281/zenodo.20822012](https://doi.org/10.5281/zenodo.20822012)). The
+(concept DOI: [10.5281/zenodo.20770707](https://doi.org/10.5281/zenodo.20770707),
+which always resolves to the current version). The
 software is licensed separately under MIT (see [License](#license)).
 
 **`metadata.sqlite` and `openalex_labels.sqlite` are LOCAL ONLY — they contain
@@ -235,18 +236,6 @@ corpus is distributed (full text in
 
 MEDLINE, PubMed, and MeSH are registered trademarks of the U.S. National Library of
 Medicine.
-
----
-
-## Manuscript précis
-
-<!-- PLACEHOLDER — to be written by Claude Desktop.
-     A short plain-language summary of the Phase 1 SparseSOM paper: the problem,
-     the method (feature-major fused BMU, FP16 binary codebook), the headline
-     results (layout speed-up, DRAM/bandwidth story, no-elbow scaling to 262k
-     neurons, ~650× over the best CPU library), and what this repo reproduces. -->
-
-_A plain-language summary of the paper will go here._
 
 ---
 
