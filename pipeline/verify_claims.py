@@ -13,14 +13,16 @@ from .stats import t_interval, paired_log_ratio_t, tost_equivalence
 
 
 class ClaimResult:
-    def __init__(self, name: str, prose: str, passed: bool, detail: str):
+    def __init__(self, name: str, prose: str, passed: bool, detail: str,
+                 delegated: bool = False):
         self.name = name
         self.prose = prose
         self.passed = passed
         self.detail = detail
+        self.delegated = delegated
 
     def __str__(self):
-        status = "PASS" if self.passed else "FAIL"
+        status = "DELEGATED" if self.delegated else ("PASS" if self.passed else "FAIL")
         return f"[{status}] {self.name}: {self.prose}\n        {self.detail}"
 
 
@@ -56,6 +58,8 @@ def _verify_one(name: str, spec: dict, results_dir: Path) -> ClaimResult:
                                f"Artifact not found: {a}")
 
     try:
+        if check_type == "delegated":
+            return _check_delegated(name, prose, check)
         if check_type == "assertion":
             return _check_assertion(name, prose, check, artifacts, results_dir)
         elif check_type == "monotone":
@@ -83,6 +87,26 @@ def _verify_one(name: str, spec: dict, results_dir: Path) -> ClaimResult:
                                f"Unknown check type: {check_type}")
     except Exception as e:
         return ClaimResult(name, prose, False, f"Error: {e}")
+
+
+
+
+def _check_delegated(name, prose, check):
+    """A claim verified in another repository: echo where, and by what.
+
+    Delegated claims are reported on their own summary line rather than folded
+    into the local pass count — this repository did not check them; the named
+    one did.
+    """
+    repo = check.get("repo", "")
+    tag = check.get("tag", "")
+    verified_by = check.get("verified_by", "")
+    if not (repo and tag and verified_by):
+        return ClaimResult(name, prose, False,
+                           "delegated check missing repo/tag/verified_by")
+    return ClaimResult(name, prose, True,
+                       f"Delegated to {repo} @ {tag}; verified by {verified_by}",
+                       delegated=True)
 
 
 def _check_assertion(name, prose, check, artifacts, results_dir):
@@ -432,7 +456,8 @@ def main():
     print("ACCEPTANCE REPORT")
     print("=" * 70)
 
-    passed = sum(1 for r in results if r.passed)
+    delegated = sum(1 for r in results if r.delegated)
+    passed = sum(1 for r in results if r.passed and not r.delegated)
     failed = sum(1 for r in results if not r.passed)
 
     for r in results:
@@ -440,7 +465,8 @@ def main():
         print()
 
     print("=" * 70)
-    print(f"Total: {len(results)} claims | Passed: {passed} | Failed: {failed}")
+    print(f"Total: {len(results)} claims | Verified locally: {passed} passed, "
+          f"{failed} failed | Delegated: {delegated}")
     print("=" * 70)
 
     if failed > 0:

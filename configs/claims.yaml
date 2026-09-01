@@ -18,7 +18,7 @@ claims:
     section: "§5.1"
 
   bmu_bit_exact:
-    prose: "quality is layout- and precision-invariant (FP16 BMU identical to FP32)"
+    prose: "quality is layout- and precision-invariant within a fixed tile size (FP16 BMU identical to FP32 at the published tile; across tile sizes ~1e-5 of assignments tie-flip — corrigendum item 3)"
     artifact: bringup_gate.json
     derivation: "bmu_identical_fp16_vs_fp32 flag true in the bring-up gate"
     check:
@@ -28,7 +28,7 @@ claims:
     section: "§5.1"
 
   sbsom_vs_cusparse_crossover:
-    prose: "at equal held-out quality the wall-time ratio crosses over with map size: cuSPARSE faster below ~edge 64, sbsom-bin 1.5-2.6x faster at edges 128-256, cuSPARSE OOM at edge 512"
+    prose: "at the published configurations and equal held-out quality the wall-time ratio crosses over with map size: cuSPARSE faster below ~edge 64, sbsom-bin 1.5-2.6x faster at edges 128-256, cuSPARSE OOM at edge 512 as shipped (re-engineered it fits and converges: see delegated claims)"
     artifact: impl_compare.parquet
     derivation: "held-out QE agreement (equal quality) and wall ratio ssom-feat/sbsom-bin, box+kl run to convergence (--epochs 200)"
     check:
@@ -58,7 +58,7 @@ claims:
     section: "§5.7, §6, Table 9"
 
   bmu_dominance:
-    prose: "BMU is 98.7% -> 99.5% of wall, rising with K"
+    prose: "at the published configuration BMU is 98.7% -> 99.5% of wall, rising with K (73.7-96.5% at the addendum-tuned configurations; share still rises with K — corrigendum item 7)"
     artifact: size_sweep_epochs.parquet
     derivation: "bmu_share = sum(bmu_s) / (sum(bmu_s)+sum(update_s)) per edge"
     check:
@@ -139,3 +139,34 @@ claims:
       min_ratio: 10
       description: "medsom total-epoch wall >= 10x sbsom-bin total-epoch wall at every edge it completed"
     section: "§5.4, Table 4"
+
+  # --- Delegated claims (v1.1): verified in the tuning-addendum repository, not here.
+  # `repro verify` reports these on their own summary line; the named repository's
+  # fresh-clone re-derivation is the check.
+
+  tuned_baseline_fits_512:
+    prose: "re-engineered (chunked update, streamed init), the cuSPARSE baseline runs and converges at edge 512 in 21.9 GiB at matched held-out quality, ~7x slower than sbsom-bin (corrigendum item 5)"
+    check:
+      type: delegated
+      repo: mongrolwarrior/sparsesom-tuning
+      tag: v1.0
+      verified_by: "repro/rederive.sh (cs512 converged cell) + repro/REDERIVE_RESULT.md + data/cs512_closure_and_band.csv"
+    section: "corrigendum item 5; addendum sections 7 and 12"
+
+  tuned_wallclock_table:
+    prose: "with both implementations tuned, converged wall clock favours sbsom-bin at every edge 32-512 (1.03-1.37x at 32 banded over baseline init seeds, rising to 6.8-7.1x at 512)"
+    check:
+      type: delegated
+      repo: mongrolwarrior/sparsesom-tuning
+      tag: v1.0
+      verified_by: "repro/rederive.sh (all converged cells) + data/phaseA_winners_converged.csv + data/phaseB_baseline_box_converged.csv + data/bands_baseline_box.csv"
+    section: "addendum section 7"
+
+  train_qe_stop:
+    prose: "a train-QE plateau stop removes the per-epoch Kaski-Lagus kernel with TE and dead fraction unchanged; train and held-out plateaus coincide at every edge including 512"
+    check:
+      type: delegated
+      repo: mongrolwarrior/sparsesom-tuning
+      tag: v1.0
+      verified_by: "data/armC_stop_trial.csv + data/kl_kernel_cost.csv"
+    section: "addendum section 8b and the stop-rule trial"
