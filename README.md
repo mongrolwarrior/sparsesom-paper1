@@ -1,5 +1,9 @@
 # sparsesom-paper1
 
+[![arXiv](https://img.shields.io/badge/arXiv-2608.24067-b31b1b.svg)](https://arxiv.org/abs/2608.24067)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22245648.svg)](https://doi.org/10.5281/zenodo.22245648)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Reproducibility repository for the Phase 1 SparseSOM manuscript — **every figure,
 table, and headline statistic regenerated from the raw corpus**. One command in a
 pinned Docker image reproduces the paper at the depth you choose.
@@ -244,3 +248,31 @@ The tuning-programme claims delegated by `configs/claims.yaml` are verified in [
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+
+## Citation
+
+This repository is the reproduction pipeline for:
+
+> Amos, A. J. (2026). *A Feature-Major Codebook for Memory-Efficient Sparse-Binary
+> Self-Organizing Maps: Scaling a MEDLINE Atlas to 1.05 Million Neurons on a Single
+> Consumer GPU.* arXiv:2608.24067 [cs.LG].
+> <https://doi.org/10.48550/arXiv.2608.24067>
+
+```bibtex
+@misc{amos2026featuremajor,
+  title         = {A Feature-Major Codebook for Memory-Efficient Sparse-Binary
+                   Self-Organizing Maps: Scaling a MEDLINE Atlas to 1.05 Million
+                   Neurons on a Single Consumer GPU},
+  author        = {Amos, Andrew James},
+  year          = {2026},
+  eprint        = {2608.24067},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  doi           = {10.48550/arXiv.2608.24067}
+}
+```
+
+Please cite the paper. To cite this repository specifically, use its archived release
+on Zenodo: <https://doi.org/10.5281/zenodo.22245648> (concept DOI - always resolves to the
+latest version; v1.1 is [10.5281/zenodo.22245649](https://doi.org/10.5281/zenodo.22245649)).

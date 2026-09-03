@@ -1,8 +1,47 @@
 cff-version: 1.2.0
-title: "SparseSOM Phase 1 — Reproducibility Repository"
-message: "If you use this software, please cite it as below."
+message: "If you use this software, please cite the paper it supports (see preferred-citation below). To cite this repository specifically, use the Zenodo DOI."
+title: "SparseSOM Phase 1: reproduction pipeline and claims"
+abstract: "Reproducibility repository for the SparseSOM Phase 1 manuscript: every figure, table and headline statistic regenerated from the raw corpus, via one command in a pinned Docker image."
 type: software
-authors:
-  - given-names: Andrew
+version: v1.1
+date-released: 2026-09-02
 license: MIT
+doi: 10.5281/zenodo.22245648
 repository-code: "https://github.com/mongrolwarrior/sparsesom-paper1"
+url: "https://doi.org/10.5281/zenodo.22245648"
+authors:
+  - family-names: Amos
+    given-names: Andrew James
+    orcid: "https://orcid.org/0000-0002-9145-0212"
+    affiliation: "College of Medicine and Dentistry, James Cook University"
+keywords:
+  - self-organizing map
+  - GPU
+  - CUDA
+  - sparse matrix
+  - MEDLINE
+  - reproducibility
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22245648
+    description: "Zenodo concept DOI - always resolves to the latest version"
+  - type: doi
+    value: 10.5281/zenodo.22245649
+    description: "Zenodo DOI for version v1.1"
+  - type: other
+    value: "arXiv:2608.24067"
+    description: "arXiv identifier of the paper this repository supports"
+preferred-citation:
+  type: article
+  title: "A Feature-Major Codebook for Memory-Efficient Sparse-Binary Self-Organizing Maps: Scaling a MEDLINE Atlas to 1.05 Million Neurons on a Single Consumer GPU"
+  year: 2026
+  month: 8
+  journal: "arXiv"
+  doi: 10.48550/arXiv.2608.24067
+  url: "https://arxiv.org/abs/2608.24067"
+  notes: "Preprint, arXiv:2608.24067 [cs.LG]"
+  authors:
+    - family-names: Amos
+      given-names: Andrew James
+      orcid: "https://orcid.org/0000-0002-9145-0212"
+      affiliation: "College of Medicine and Dentistry, James Cook University"
