@@ -239,6 +239,8 @@ Medicine.
 
 ---
 
+The tuning-programme claims delegated by `configs/claims.yaml` are verified in [mongrolwarrior/sparsesom-tuning](https://github.com/mongrolwarrior/sparsesom-tuning) at `v1.0` — see the delegation manifest entries (`type: delegated`) and that repository’s `repro/REDERIVE_RESULT.md`.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
