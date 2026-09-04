@@ -25,9 +25,6 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.22245648
     description: "Zenodo concept DOI - always resolves to the latest version"
-  - type: doi
-    value: 10.5281/zenodo.22245649
-    description: "Zenodo DOI for version v1.1"
   - type: other
     value: "arXiv:2608.24067"
     description: "arXiv identifier of the paper this repository supports"
